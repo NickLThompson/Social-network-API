@@ -12,13 +12,13 @@ const {
 // /api/users
 
 router.route("/")
-.get(getUsers);
-.get(getSingleUser);
-.post(createUser);
-.put(updateUser);
-.delete(deleteUser);
-.post(addFriend);
-.delete(deleteFriend);
+.get(getUsers)
+.get(getSingleUser)
+.post(createUser)
+.put(updateUser)
+.delete(deleteUser)
+.post(addFriend)
+.delete(deleteFriend)
 
 // /api/users/:userId
 router.route("/:userId")

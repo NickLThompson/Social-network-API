@@ -2,6 +2,39 @@
 const { Schema, model, Types } = require('mongoose');
 const moment = require("moment");
 
+// creating a reaction schema, basically just comments
+const reactionSchema = new Schema(
+    {
+        // giving a custom id for each reaction written
+        reactionID: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId
+        },
+        // this is the body of each reaction; where all the text is
+        reactionBody: {
+            type: String,
+            required: true,
+            max: 280
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            // using Moment to get the current date and time
+            get: (createdAtVal) => moment(createdAtVal).format("MMM DD, YYYY [at] hh:mm a")
+        },
+    },
+        {
+        toJSON: {
+            getters: true,
+        },
+        id: false,
+    }
+);
+
 // this creates a new instance of a Mongoose schema to define shape of each document
 const thoughtSchema = new Schema(
     // this adds individual properties and their types
@@ -23,7 +56,7 @@ const thoughtSchema = new Schema(
             type: String,
             required: true
         },
-        reaction: [reactionSchema]
+        reaction: [reactionSchema],
     },
     {
         toJSON: {
@@ -34,39 +67,10 @@ const thoughtSchema = new Schema(
     }
 )
 
-// creating a reaction schema, basically just comments
-const reactionSchema = new Schema(
-    {
-        // giving a custom id for each reaction written
-        reactionID: {
-            type: Schema.Types.ObjectId,
-            default: ()=> new Types.ObjectId
-        },
-    // this is the body of each reaction; where all the text is
-    reactionBody: {
-        type: String,
-        required: true,
-        max: 280
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        // using Moment to get the current date and time
-        get: (createdAtVal) => moment(createdAtVal).format("MMM DD, YYYY [at] hh:mm a")
-    },
-    toJSON: {
-        getters: trusted,
-    },
-}
-)
 
 
 // this gets the total amount of friends on this specific user's list
-thoughtSchema.virtual("reactionCount").get(function() {
+thoughtSchema.virtual("reactionCount").get(function () {
     return this.reactions.length;
 })
 
