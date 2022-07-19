@@ -38,7 +38,7 @@ const reactionSchema = new Schema(
 // this creates a new instance of a Mongoose schema to define shape of each document
 const thoughtSchema = new Schema(
     // this adds individual properties and their types
-    // "required: true" is the same ass "allowNull: false;"
+    // "required: true" is the same as "allowNull: false;"
     {
         thoughtText: {
             type: String,
