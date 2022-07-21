@@ -71,7 +71,7 @@ const thoughtSchema = new Schema(
 
 // this gets the total amount of friends on this specific user's list
 thoughtSchema.virtual("reactionCount").get(function () {
-    return this.reactions.length;
+    return this.reaction.length;
 })
 
 // creating a Thoughts model that uses the Thoughts schema

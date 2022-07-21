@@ -19,22 +19,21 @@ const thoughtController = {
             .catch((err) => res.status(500).json(err));
     },
     // post request for creating a new thought
-    createThought(req, res) {
-        Thought.create(req.body)
-            .then((thought) => {
+    createThought({params, body}, res) {
+        Thought.create(body)
+            .then(({_id}) => {
                 return User.findOneAndUpdate(
-                    { _id: req.body.userId },
-                    { $addToSet: { thoughts: thought._id } },
-                    { new: true }
-                );
+                    { _id: params.userId},
+                    {$push: {thoughts: _id}},
+                    {new: true}); 
             })
-            .then((user) =>
-                !user
-                    ? res.status(404).json({
-                        message: "Thought cretaed, but no user found with this id",
-                    })
-                    : res.json("Thought created")
-            )
+            .then(dbThoughtsData => {
+                if(!dbThoughtsData) {
+                    res.status(404).json({ message: "No thoughts found with this id" });
+                    return;
+                }
+                res.json(dbThoughtsData)
+            })
             .catch((err) => {
                 console.log(err);
                 res.status(500).json(err);

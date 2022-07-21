@@ -22,6 +22,12 @@ router.route("/")
 
 // /api/users/:userId
 router.route("/:userId")
-.get(getSingleUser);
+.get(getUsers)
+.get(getSingleUser)
+.post(createUser)
+.put(updateUser)
+.delete(deleteUser)
+.post(addFriend)
+.delete(deleteFriend)
 
 module.exports = router;
